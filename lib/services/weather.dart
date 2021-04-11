@@ -5,6 +5,16 @@ const apiKey = 'ddc44cc9b9ea7c873ce7c1a71e3430ea';
 const openWeatherMapURl = 'https://api.openweathermap.org/data/2.5/weather';
 
 class WeatherModel {
+  Future<dynamic> getCityWeather(String cityName) async {
+    NetworkHelper networkHelper = NetworkHelper(
+      '$openWeatherMapURl?q=$cityName&appid=$apiKey&units=metric',
+    );
+
+    var weatherData = await networkHelper.getData();
+
+    return weatherData;
+  }
+
   Future<dynamic> getLocationWeather() async {
     Location location = Location();
 
@@ -19,7 +29,7 @@ class WeatherModel {
     return weatherData;
   }
 
-  String getWeatherIcon(int condition) {
+  String getWeatherIcon(dynamic condition) {
     if (condition < 300) {
       return '🌩';
     } else if (condition < 400) {
@@ -39,7 +49,7 @@ class WeatherModel {
     }
   }
 
-  String getMessage(int temp) {
+  String getMessage(dynamic temp) {
     if (temp > 25) {
       return 'It\'s 🍦 time';
     } else if (temp > 20) {
